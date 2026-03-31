@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['loggedin'])) { header("Location: /Drifter/front/login.php"); exit; }
-if (($_SESSION['role'] ?? '') !== 'customer') { header("Location: /Drifter/front/index.php"); exit; }
+if (!isset($_SESSION['loggedin'])) { header("Location: ".BASE."/front/login.php"); exit; }
+if (($_SESSION['role'] ?? '') !== 'customer') { header("Location: ".BASE."/front/index.php"); exit; }
 $navActive = '';
 include '../includes/navbar.php';
 $user = htmlspecialchars($_SESSION['username']);
@@ -125,16 +125,16 @@ $user = htmlspecialchars($_SESSION['username']);
 
   <div class="section-title"><i class="fas fa-bolt" style="color:var(--orange)"></i> Quick Actions</div>
   <div class="quick-grid">
-    <a href="/Drifter/transport/booking_step1.php" class="quick-card">
+    <a href="<?= BASE ?>/transport/booking_step1.php" class="quick-card">
       <div class="qi" style="background:#fff3eb;">🚚</div><h4>Book Transport</h4><p>Move goods anywhere</p>
     </a>
-    <a href="/Drifter/travel/booking_step1.php" class="quick-card">
+    <a href="<?= BASE ?>/travel/booking_step1.php" class="quick-card">
       <div class="qi" style="background:#f0f9ff;">🚌</div><h4>Book Travel</h4><p>Comfortable rides</p>
     </a>
-    <a href="/Drifter/courier/courier.php" class="quick-card">
+    <a href="<?= BASE ?>/courier/courier.php" class="quick-card">
       <div class="qi" style="background:#f8f9fa;">📦</div><h4>Send Courier</h4><p>Fast delivery</p>
     </a>
-    <a href="/Drifter/move/movers.php" class="quick-card">
+    <a href="<?= BASE ?>/move/movers.php" class="quick-card">
       <div class="qi" style="background:#fffbeb;">🏠</div><h4>Packers &amp; Movers</h4><p>Stress-free relocation</p>
     </a>
   </div>
@@ -248,16 +248,18 @@ function showToast(msg, type='info') {
 }
 
 let prevCount = -1;
+const BASE_URL = '<?= BASE ?>';
+
 function fetchData() {
-  fetch('/Drifter/front/api_my_rides.php')
+  fetch(BASE_URL+'/front/api_my_rides.php')
     .then(r=>r.json())
     .then(d=>{
       if (d.error) return;
       allData = d;
       updateStats(d);
-      renderList('list-all',   d.all,    'You have no bookings yet.',          '/Drifter/front/index.php#services', '🚀 Book a Service');
-      renderList('list-active',d.active, 'No active bookings right now.',      '/Drifter/transport/booking_step1.php', '🚚 Book Transport');
-      renderList('list-past',  d.past,   'No past rides yet. Start exploring!','/Drifter/travel/booking_step1.php', '🚌 Book Travel');
+      renderList('list-all',   d.all,    'You have no bookings yet.',          BASE_URL+'/front/index.php#services', '🚀 Book a Service');
+      renderList('list-active',d.active, 'No active bookings right now.',      BASE_URL+'/transport/booking_step1.php', '🚚 Book Transport');
+      renderList('list-past',  d.past,   'No past rides yet. Start exploring!',BASE_URL+'/travel/booking_step1.php', '🚌 Book Travel');
       if (prevCount !== -1 && d.count > prevCount) showToast('New booking update received!','success');
       prevCount = d.count;
     }).catch(()=>{});
@@ -269,7 +271,7 @@ setInterval(fetchData, 8000);
 function cancelBooking(id, btn) {
   if (!confirm('Cancel this booking?')) return;
   btn.disabled = true; btn.textContent = 'Cancelling...';
-  fetch('/Drifter/front/api_cancel_booking.php', {
+  fetch(BASE_URL+'/front/api_cancel_booking.php', {
     method: 'POST',
     body: new URLSearchParams({booking_id: id})
   }).then(r => r.json()).then(d => {

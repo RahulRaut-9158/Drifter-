@@ -1,5 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
+if (!defined('BASE')) { require_once dirname(__DIR__).'/config.php'; }
 $_active = $navActive ?? '';
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -255,7 +256,7 @@ input:focus, select:focus, textarea:focus { outline: none; }
 
 <nav class="drifter-nav">
   <div class="nav-inner">
-    <a href="/Drifter/front/index.php" class="nav-logo">
+    <a href="<?= BASE ?>/front/index.php" class="nav-logo">
       <div class="logo-icon">D</div>
       <div>
         <span class="logo-text">DRIFTER</span>
@@ -264,7 +265,7 @@ input:focus, select:focus, textarea:focus { outline: none; }
     </a>
 
     <ul class="nav-links" id="navLinks">
-      <li><a href="/Drifter/front/index.php" class="<?= $_active==='home'?'active':'' ?>"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="<?= BASE ?>/front/index.php" class="<?= $_active==='home'?'active':'' ?>"><i class="fas fa-home"></i> Home</a></li>
 
       <?php
       $role = $_SESSION['role'] ?? 'guest';
@@ -272,10 +273,10 @@ input:focus, select:focus, textarea:focus { outline: none; }
       <li class="nav-drop">
         <span class="drop-toggle"><i class="fas fa-truck"></i> Services <i class="fas fa-chevron-down drop-chevron"></i></span>
         <div class="drop-menu">
-          <a href="/Drifter/transport/booking_step1.php"><i class="fas fa-truck-moving"></i> Transport Goods</a>
-          <a href="/Drifter/travel/booking_step1.php"><i class="fas fa-bus"></i> Travel / Ride</a>
-          <a href="/Drifter/courier/courier.php"><i class="fas fa-box"></i> Courier</a>
-          <a href="/Drifter/move/movers.php"><i class="fas fa-people-carry"></i> Packers &amp; Movers</a>
+          <a href="<?= BASE ?>/transport/booking_step1.php"><i class="fas fa-truck-moving"></i> Transport Goods</a>
+          <a href="<?= BASE ?>/travel/booking_step1.php"><i class="fas fa-bus"></i> Travel / Ride</a>
+          <a href="<?= BASE ?>/courier/courier.php"><i class="fas fa-box"></i> Courier</a>
+          <a href="<?= BASE ?>/move/movers.php"><i class="fas fa-people-carry"></i> Packers &amp; Movers</a>
         </div>
       </li>
       <?php endif; ?>
@@ -284,11 +285,11 @@ input:focus, select:focus, textarea:focus { outline: none; }
       <li class="nav-drop">
         <span class="drop-toggle"><i class="fas fa-plus-circle"></i> My Vehicles <i class="fas fa-chevron-down drop-chevron"></i></span>
         <div class="drop-menu">
-          <a href="/Drifter/front/your_vehicle_info.php"><i class="fas fa-truck"></i> Transport Vehicles</a>
-          <a href="/Drifter/front/your_vehicle_travel.php"><i class="fas fa-bus-alt"></i> Travel Vehicles</a>
+          <a href="<?= BASE ?>/front/your_vehicle_info.php"><i class="fas fa-truck"></i> Transport Vehicles</a>
+          <a href="<?= BASE ?>/front/your_vehicle_travel.php"><i class="fas fa-bus-alt"></i> Travel Vehicles</a>
           <div class="drop-divider"></div>
-          <a href="/Drifter/transport/add_vehicle.php"><i class="fas fa-plus"></i> Add Transport Vehicle</a>
-          <a href="/Drifter/travel/add_vehicle.php"><i class="fas fa-plus"></i> Add Travel Vehicle</a>
+          <a href="<?= BASE ?>/transport/add_vehicle.php"><i class="fas fa-plus"></i> Add Transport Vehicle</a>
+          <a href="<?= BASE ?>/travel/add_vehicle.php"><i class="fas fa-plus"></i> Add Travel Vehicle</a>
         </div>
       </li>
       <?php endif; ?>
@@ -297,20 +298,20 @@ input:focus, select:focus, textarea:focus { outline: none; }
       <li class="nav-drop">
         <span class="drop-toggle"><i class="fas fa-building"></i> My Companies <i class="fas fa-chevron-down drop-chevron"></i></span>
         <div class="drop-menu">
-          <a href="/Drifter/courier/company_info.php"><i class="fas fa-box"></i> Courier Companies</a>
-          <a href="/Drifter/move/company_info.php"><i class="fas fa-warehouse"></i> Movers Companies</a>
+          <a href="<?= BASE ?>/courier/company_info.php"><i class="fas fa-box"></i> Courier Companies</a>
+          <a href="<?= BASE ?>/move/company_info.php"><i class="fas fa-warehouse"></i> Movers Companies</a>
           <div class="drop-divider"></div>
-          <a href="/Drifter/courier/add_company.php"><i class="fas fa-plus"></i> Add Courier Co.</a>
-          <a href="/Drifter/move/add_company.php"><i class="fas fa-plus"></i> Add Movers Co.</a>
+          <a href="<?= BASE ?>/courier/add_company.php"><i class="fas fa-plus"></i> Add Courier Co.</a>
+          <a href="<?= BASE ?>/move/add_company.php"><i class="fas fa-plus"></i> Add Movers Co.</a>
         </div>
       </li>
       <?php endif; ?>
 
-      <li><a href="/Drifter/front/about.php" class="<?= $_active==='about'?'active':'' ?>"><i class="fas fa-info-circle"></i> About</a></li>
-      <li><a href="/Drifter/front/support.php" class="<?= $_active==='support'?'active':'' ?>"><i class="fas fa-headset"></i> Support</a></li>
+      <li><a href="<?= BASE ?>/front/about.php" class="<?= $_active==='about'?'active':'' ?>"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="<?= BASE ?>/front/support.php" class="<?= $_active==='support'?'active':'' ?>"><i class="fas fa-headset"></i> Support</a></li>
 
       <?php if (!isset($_SESSION['loggedin'])): ?>
-        <li><a href="/Drifter/front/login.php" class="nav-cta"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        <li><a href="<?= BASE ?>/front/login.php" class="nav-cta"><i class="fas fa-sign-in-alt"></i> Login</a></li>
       <?php else: ?>
         <li class="nav-drop">
           <div class="user-badge drop-toggle">
@@ -320,16 +321,16 @@ input:focus, select:focus, textarea:focus { outline: none; }
           </div>
           <div class="drop-menu" style="right:0;left:auto;">
             <?php if ($role === 'customer'): ?>
-              <a href="/Drifter/front/dashboard_customer.php"><i class="fas fa-tachometer-alt"></i> My Bookings</a>
+              <a href="<?= BASE ?>/front/dashboard_customer.php"><i class="fas fa-tachometer-alt"></i> My Bookings</a>
             <?php elseif ($role === 'owner'): ?>
-              <a href="/Drifter/front/your_vehicle_info.php"><i class="fas fa-truck"></i> Transport Vehicles</a>
-              <a href="/Drifter/front/your_vehicle_travel.php"><i class="fas fa-bus"></i> Travel Vehicles</a>
+              <a href="<?= BASE ?>/front/your_vehicle_info.php"><i class="fas fa-truck"></i> Transport Vehicles</a>
+              <a href="<?= BASE ?>/front/your_vehicle_travel.php"><i class="fas fa-bus"></i> Travel Vehicles</a>
             <?php elseif ($role === 'company'): ?>
-              <a href="/Drifter/courier/company_info.php"><i class="fas fa-box"></i> Courier Companies</a>
-              <a href="/Drifter/move/company_info.php"><i class="fas fa-people-carry"></i> Movers Companies</a>
+              <a href="<?= BASE ?>/courier/company_info.php"><i class="fas fa-box"></i> Courier Companies</a>
+              <a href="<?= BASE ?>/move/company_info.php"><i class="fas fa-people-carry"></i> Movers Companies</a>
             <?php endif; ?>
             <div class="drop-divider"></div>
-            <a href="/Drifter/front/logout.php" style="color:#ff8c69!important"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="<?= BASE ?>/front/logout.php" style="color:#ff8c69!important"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </li>
       <?php endif; ?>

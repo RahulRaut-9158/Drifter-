@@ -1,25 +1,25 @@
 <?php
 /**
- * Central config — reads from environment variables on Railway,
- * falls back to XAMPP localhost defaults for local development.
- *
- * Railway sets these automatically when you add a MySQL plugin:
- *   MYSQLHOST, MYSQLUSER, MYSQLPASSWORD, MYSQLDATABASE, MYSQLPORT
+ * Central config
+ * - On Railway: reads MYSQL* environment variables set by Railway MySQL plugin
+ * - On XAMPP:   falls back to localhost defaults
  */
 
+// ── DATABASE ─────────────────────────────────────────────────────────────────
 define('DB_HOST', getenv('MYSQLHOST')     ?: 'localhost');
 define('DB_USER', getenv('MYSQLUSER')     ?: 'root');
 define('DB_PASS', getenv('MYSQLPASSWORD') ?: '');
 define('DB_PORT', getenv('MYSQLPORT')     ?: '3306');
 define('DB_NAME', getenv('MYSQLDATABASE') ?: 'db');
 
-// On Railway we use ONE database with prefixed tables.
-// Locally we keep the original 3-database setup.
-define('SINGLE_DB', (bool)getenv('MYSQLHOST')); // true on Railway, false locally
+// On Railway we have ONE database — courier/movers tables share it
+// Locally we keep 3 separate databases
+define('SINGLE_DB', (bool)getenv('MYSQLHOST'));
 
-// Base URL — used for redirects and asset paths
-// On Railway this is set as an env var: APP_URL=https://yourapp.up.railway.app
-define('APP_URL', rtrim(getenv('APP_URL') ?: '', '/'));
+// ── BASE PATH ────────────────────────────────────────────────────────────────
+// On Railway (no subfolder):  BASE = ''
+// On XAMPP (in /Drifter/):    BASE = '/Drifter'
+define('BASE', getenv('MYSQLHOST') ? '' : '/Drifter');
 
-// Base path for links — '/Drifter' locally, '' on Railway
-define('BASE', getenv('APP_URL') ? '' : '/Drifter');
+// ── APP URL ──────────────────────────────────────────────────────────────────
+define('APP_URL', rtrim(getenv('APP_URL') ?: 'http://localhost/Drifter', '/'));

@@ -6,7 +6,7 @@ $conn = db();
 if (empty($_SESSION['csrf_token'])) $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    $dest = isset($_GET['redirect']) && !empty($_GET['redirect']) ? $_GET['redirect'] : '/Drifter/front/index.php';
+    $dest = isset($_GET['redirect']) && !empty($_GET['redirect']) ? $_GET['redirect'] : BASE.'/front/index.php';
     header("Location: $dest"); exit;
 }
 
@@ -36,11 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         header("Location: ".$_GET['redirect']); exit;
                     }
                     $roleMap = [
-                        'customer' => '/Drifter/front/dashboard_customer.php',
-                        'owner'    => '/Drifter/front/your_vehicle_info.php',
-                        'company'  => '/Drifter/courier/company_info.php'
+                        'customer' => BASE.'/front/dashboard_customer.php',
+                        'owner'    => BASE.'/front/your_vehicle_info.php',
+                        'company'  => BASE.'/courier/company_info.php'
                     ];
-                    header("Location: ".($roleMap[$row['role']] ?? '/Drifter/front/index.php')); exit;
+                    header("Location: ".($roleMap[$row['role']] ?? BASE.'/front/index.php')); exit;
                 } else {
                     $error = 'Invalid username/email or password.';
                 }
@@ -179,7 +179,7 @@ body{min-height:100vh;font-family:'Inter',sans-serif;display:flex;position:relat
     <div class="alert success"><i class="fas fa-check-circle"></i> Account created! Sign in below.</div>
     <?php endif; ?>
 
-    <form method="POST" action="login.php<?= isset($_GET['redirect']) ? '?redirect='.urlencode($_GET['redirect']) : '' ?>" id="loginForm">
+    <form method="POST" action="<?= BASE ?>/front/login.php<?= isset($_GET['redirect']) ? '?redirect='.urlencode($_GET['redirect']) : '' ?>" id="loginForm">
       <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
       <div class="form-group">

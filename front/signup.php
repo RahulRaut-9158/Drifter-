@@ -1,6 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['loggedin'])) { header('Location: /Drifter/front/index.php'); exit; }
+require_once dirname(__DIR__).'/config.php';
+if (isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/index.php'); exit; }
 
 $signupError = '';
 if (isset($_POST['submit'])) {
@@ -34,7 +35,7 @@ if (isset($_POST['submit'])) {
                 $stmt2->bind_param('sssss', $username, $email, $hash, $role, $phone);
                 if ($stmt2->execute()) {
                     $conn->close();
-                    header('Location: login.php?registered=1'); exit;
+                    header('Location: '.BASE.'/front/login.php?registered=1'); exit;
                 }
                 $signupError = 'Registration failed. Please try again.';
             }
@@ -155,7 +156,7 @@ body{min-height:100vh;font-family:'Inter',sans-serif;display:flex;position:relat
       <p>Create your free account</p>
     </div>
 
-    <form action="signup.php" method="POST" id="sf">
+    <form action="<?= BASE ?>/front/signup.php" method="POST" id="sf">
       <?php if (!empty($signupError)): ?>
       <div class="alert-error"><i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($signupError) ?></div>
       <?php endif; ?>
@@ -230,7 +231,7 @@ body{min-height:100vh;font-family:'Inter',sans-serif;display:flex;position:relat
       </button>
     </form>
 
-    <div class="foot-link">Already have an account? <a href="login.php">Sign in</a></div>
+    <div class="foot-link">Already have an account? <a href="<?= BASE ?>/front/login.php">Sign in</a></div>
   </div>
 </div>
 
