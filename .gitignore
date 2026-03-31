@@ -8,9 +8,8 @@ move/uploads/*
 !courier/uploads/.gitkeep
 !move/uploads/.gitkeep
 
-# Environment config
-.env
-db_config.php
+# Local config with real credentials — NEVER commit this
+config.local.php
 
 # OS files
 .DS_Store

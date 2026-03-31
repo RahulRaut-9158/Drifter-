@@ -4,9 +4,10 @@ if (isset($_SESSION['loggedin'])) { header('Location: /Drifter/front/index.php')
 
 $signupError = '';
 if (isset($_POST['submit'])) {
+    require_once '../config.php';
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     try {
-        $conn = new mysqli('localhost','root','','db');
+        $conn = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME,(int)DB_PORT);
         $conn->set_charset('utf8mb4');
 
         $username  = trim($_POST['user'] ?? '');

@@ -1,0 +1,12 @@
+Options -Indexes
+RewriteEngine On
+
+# Redirect root to front/index.php
+RewriteRule ^$ front/index.php [L,R=302]
+
+# Allow direct access to existing files and directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Remove /Drifter prefix if accessed with it (local compat)
+RewriteRule ^Drifter/(.*)$ /$1 [L,R=301]

@@ -145,12 +145,38 @@ Drifter/
 
 ---
 
-## Setup
+## Deployment on Railway
 
-### Requirements
-- XAMPP (Apache + MySQL + PHP 8+)
+### Step 1 — Push to GitHub
+```bash
+git init
+git add .
+git commit -m "Initial commit: Drifter Transport Platform"
+git branch -M main
+git remote add origin https://github.com/YOURUSERNAME/drifter-transport-platform.git
+git push -u origin main
+```
 
-### Steps
+### Step 2 — Deploy on Railway
+1. Go to [railway.app](https://railway.app) → **New Project**
+2. Click **Deploy from GitHub repo** → select your repo
+3. Click **Add Plugin** → **MySQL** — Railway creates a MySQL instance
+4. Go to your web service → **Variables** tab → add:
+   ```
+   APP_URL = https://yourapp.up.railway.app
+   ```
+   (Railway auto-sets `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`, `MYSQLPORT`)
+5. Go to MySQL plugin → **Connect** tab → open **Query** tab
+6. Paste and run `db_setup_railway.sql` to create all tables
+7. Your app is live! 🚀
+
+### Step 3 — Local Development
+Local setup still works exactly as before with XAMPP.
+The `config.php` auto-detects Railway vs local via environment variables.
+
+---
+
+## Setup (Local XAMPP)
 
 1. Copy the project into `C:\xampp\htdocs\Drifter\`
 

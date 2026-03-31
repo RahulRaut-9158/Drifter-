@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once dirname(__DIR__).'/config.php';
 header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { echo json_encode(['success'=>false,'msg'=>'Invalid method']); exit; }
 
@@ -16,7 +17,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['success'=>false,'msg'=>'Invalid email address.']); exit;
 }
 
-$conn = new mysqli('localhost','root','','db');
+$conn = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME,(int)DB_PORT);
 if ($conn->connect_error) { echo json_encode(['success'=>false,'msg'=>'DB error']); exit; }
 $conn->set_charset('utf8mb4');
 
