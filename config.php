@@ -10,7 +10,7 @@ define('DB_HOST', getenv('MYSQLHOST')     ?: 'localhost');
 define('DB_USER', getenv('MYSQLUSER')     ?: 'root');
 define('DB_PASS', getenv('MYSQLPASSWORD') ?: '');
 define('DB_PORT', getenv('MYSQLPORT')     ?: '3306');
-define('DB_NAME', getenv('MYSQLDATABASE') ?: 'db');
+define('DB_NAME', getenv('MYSQLDATABASE') ?: 'drifter');
 
 // On Railway we have ONE database — courier/movers tables share it
 // Locally we keep 3 separate databases
