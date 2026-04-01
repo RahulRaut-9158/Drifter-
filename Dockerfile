@@ -36,5 +36,5 @@ COPY . .
 # Railway injects $PORT at runtime; expose a default for documentation purposes
 EXPOSE 8080
 
-# Start the PHP built-in web server using router.php as the router script
-CMD php -S 0.0.0.0:${PORT:-8080} router.php
+# Start the PHP built-in web server using index.php as the entry point
+CMD php -S 0.0.0.0:${PORT:-8080} -t /app index.php
