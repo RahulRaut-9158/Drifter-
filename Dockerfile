@@ -33,8 +33,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 # Copy the rest of the application
 COPY . .
 
-# Railway injects $PORT at runtime; expose a default for documentation purposes
 EXPOSE 8080
 
 # Start the PHP built-in web server using router.php for routing
-CMD sh -c 'php -S 0.0.0.0:${PORT:-8080} router.php'
+CMD php -S 0.0.0.0:8080 router.php
