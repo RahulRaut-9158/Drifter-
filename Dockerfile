@@ -37,4 +37,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the PHP built-in web server using index.php as the entry point
-CMD sh -c "php -S 0.0.0.0:${PORT:-8080} -t /app index.php"
+CMD sh -c 'php -S 0.0.0.0:${PORT:-8080} -t /app index.php'
