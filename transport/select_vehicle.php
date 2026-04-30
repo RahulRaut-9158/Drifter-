@@ -1,10 +1,9 @@
 <?php
 session_start();
 require_once '../includes/db.php';
-if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/login.php'); exit; }
+if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/login.php'); exit; }
 
 $conn = db();
-
 $user_name       = trim($_POST['user_name'] ?? '');
 $user_mobile     = trim($_POST['user_mobile'] ?? '');
 $pickup_location = trim($_POST['pickup_location'] ?? '');
@@ -28,90 +27,59 @@ include '../includes/navbar.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Select Transport Vehicle — Drifter</title>
+<link rel="stylesheet" href="<?= BASE ?>/assets/css/services.css">
 <style>
-.page-hero{
-  padding:60px 24px 40px;text-align:center;color:white;
+.page-hero {
+  padding:64px 24px 48px;text-align:center;color:white;
   position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0a1628,#0f2b5e);
 }
-.page-hero::before{
+.page-hero::before {
   content:'';position:absolute;inset:0;
-  background:url('https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=1920&q=80') center/cover no-repeat;
-  filter:brightness(0.22) saturate(1.2);
+  background:radial-gradient(ellipse at 30% 60%,rgba(249,115,22,0.20) 0%,transparent 55%);
 }
-.page-hero::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(45,98,53,0.92) 0%,rgba(168,223,142,0.38) 100%);
+.page-hero::after {
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:60px;
+  background:#f1f5f9;clip-path:ellipse(55% 100% at 50% 100%);
 }
-.page-hero h1{font-size:1.8rem;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
-.page-hero p{color:rgba(255,255,255,0.75);font-size:0.9rem;position:relative;z-index:1;}
-.trip-summary{background:white;padding:16px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:center;}
-.trip-tag{display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--muted);}
-.trip-tag strong{color:var(--text);}
-.steps-nav{display:flex;justify-content:center;align-items:center;gap:0;padding:20px 24px;background:#f8f9fc;}
-.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;padding:0 28px;}
-.step-item:not(:last-child)::after{content:'';position:absolute;right:-1px;top:18px;width:56px;height:2px;background:#e2e8f0;}
-.step-circle{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;background:#e2e8f0;color:#94a3b8;}
-.step-item.active .step-circle{background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;box-shadow:0 4px 12px rgba(188,159,139,0.45);}
-.step-item.done .step-circle{background:#B5CFB7;color:#2a2520;}
-.step-label{font-size:0.72rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;}
-.step-item.active .step-label{color:#a08070;}
-
-.vehicles-section{max-width:1280px;margin:0 auto;padding:40px 24px 80px;}
-.vehicles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
-.v-card{background:white;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:var(--trans);}
-.v-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
-.v-img{width:100%;height:200px;object-fit:cover;}
-.v-img-placeholder{
-  width:100%;height:200px;
-  background:url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d8?w=600&q=70') center/cover no-repeat;
-  display:flex;align-items:center;justify-content:center;
-  font-size:3rem;position:relative;
+.page-hero > * { position:relative;z-index:1; }
+.page-hero h1 { font-size:clamp(1.6rem,3vw,2rem);font-weight:800;margin-bottom:8px; }
+.page-hero p { color:rgba(255,255,255,0.65);font-size:0.9rem; }
+.vehicles-section { max-width:1280px;margin:0 auto;padding:40px 24px 80px; }
+.results-meta {
+  margin-bottom:24px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
 }
-.v-img-placeholder::before{
-  content:'';position:absolute;inset:0;
-  background:rgba(15,10,40,0.45);
+.results-meta p { color:#64748b;font-size:0.9rem; }
+.results-meta strong { color:#0f172a; }
+.sort-bar {
+  display:flex;align-items:center;gap:8px;font-size:0.85rem;color:#64748b;
 }
-.v-body{padding:20px;}
-.v-rate{display:inline-block;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;padding:4px 12px;border-radius:50px;font-size:0.8rem;font-weight:700;margin-bottom:12px;}
-.v-name{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:8px;}
-.v-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
-.v-meta-item{font-size:0.8rem;color:var(--muted);}
-.v-meta-item strong{display:block;color:var(--text);font-size:0.88rem;}
-.v-total{background:rgba(202,218,191,0.20);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(181,207,183,0.45);}
-.v-total span{font-size:0.82rem;color:#3a6b3c;font-weight:500;}
-.v-total strong{font-size:1.1rem;color:#3a6b3c;font-weight:800;}
-.book-btn{width:100%;padding:12px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
-.book-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(188,159,139,0.45);}
-.book-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
-
-.no-vehicles{text-align:center;padding:80px 24px;background:white;border-radius:16px;box-shadow:var(--shadow);}
-.no-vehicles .icon{font-size:4rem;margin-bottom:16px;}
-.no-vehicles h3{font-size:1.4rem;font-weight:700;margin-bottom:8px;}
-.no-vehicles p{color:var(--muted);margin-bottom:24px;}
-.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border-radius:10px;text-decoration:none;font-weight:600;transition:var(--trans);}
-.back-btn:hover{transform:translateY(-2px);}
-
-/* toast */
-#toast{position:fixed;top:80px;right:24px;z-index:99999;padding:14px 22px;border-radius:10px;font-weight:600;font-size:0.9rem;box-shadow:0 8px 24px rgba(0,0,0,0.2);transform:translateX(120%);transition:transform 0.4s ease;max-width:320px;}
-#toast.show{transform:translateX(0);}
-#toast.success{background:#B5CFB7;color:#1a3a1c;}
-#toast.error{background:#FFAAB8;color:#5a1a2a;}
+.sort-bar select {
+  padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;
+  font-size:0.83rem;outline:none;cursor:pointer;
+  transition:border-color 0.2s;
+}
+.sort-bar select:focus { border-color:#f97316; }
 </style>
 </head>
 <body>
+
 <div class="page-hero">
-  <h1>🚚 Available Transport Vehicles</h1>
+  <h1><i class="fas fa-truck-moving"></i> Available Transport Vehicles</h1>
   <p>Select the best vehicle for your trip</p>
 </div>
 
-<div class="trip-summary">
-  <div class="trip-tag"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> <strong><?= htmlspecialchars($pickup_location) ?></strong></div>
-  <div class="trip-tag"><i class="fas fa-arrow-right" style="color:var(--muted)"></i></div>
-  <div class="trip-tag"><i class="fas fa-map-marker" style="color:#10b981"></i> <strong><?= htmlspecialchars($drop_location) ?></strong></div>
+<div class="trip-bar">
+  <div class="trip-tag"><i class="fas fa-map-marker-alt"></i> <strong><?= htmlspecialchars($pickup_location) ?></strong></div>
+  <div class="trip-tag"><i class="fas fa-arrow-right" style="color:#64748b;"></i></div>
+  <div class="trip-tag"><i class="fas fa-map-marker" style="color:#22c55e;"></i> <strong><?= htmlspecialchars($drop_location) ?></strong></div>
   <div class="trip-tag"><i class="fas fa-road"></i> <strong><?= $distance_km ?> km</strong></div>
   <div class="trip-tag"><i class="fas fa-calendar"></i> <strong><?= date('d M Y', strtotime($date)) ?></strong></div>
+  <div class="trip-tag"><i class="fas fa-clock"></i> <strong><?= $time ?></strong></div>
 </div>
 
 <div class="steps-nav">
@@ -122,25 +90,32 @@ include '../includes/navbar.php';
 
 <div class="vehicles-section">
   <?php if (empty($vehicles)): ?>
-    <div class="no-vehicles">
+    <div class="no-results reveal">
       <div class="icon">🔍</div>
       <h3>No Vehicles Found</h3>
       <p>No transport vehicles are available in <strong><?= htmlspecialchars($pickup_location) ?></strong> right now. Try a nearby city or check back later.</p>
       <a href="booking_step1.php" class="back-btn"><i class="fas fa-arrow-left"></i> Change Location</a>
     </div>
   <?php else: ?>
-    <div style="margin-bottom:20px;color:var(--muted);font-size:0.9rem;">
-      Found <strong style="color:var(--text)"><?= count($vehicles) ?> vehicle<?= count($vehicles)>1?'s':'' ?></strong> available in <?= htmlspecialchars($pickup_location) ?>
+    <div class="results-meta">
+      <p>Found <strong><?= count($vehicles) ?> vehicle<?= count($vehicles)>1?'s':'' ?></strong> available in <?= htmlspecialchars($pickup_location) ?></p>
+      <div class="sort-bar">
+        <i class="fas fa-sort"></i> Sort by:
+        <select onchange="sortVehicles(this.value)">
+          <option value="rate">Rate (Low to High)</option>
+          <option value="capacity">Capacity</option>
+        </select>
+      </div>
     </div>
-    <div class="vehicles-grid">
+    <div class="vehicles-grid" id="vehiclesGrid">
       <?php foreach ($vehicles as $v):
         $total = floatval($v['rate_per_km']) * $distance_km;
       ?>
-      <div class="v-card">
+      <div class="v-card reveal" data-rate="<?= $v['rate_per_km'] ?>" data-capacity="<?= $v['capacity'] ?>">
         <?php if ($v['vehicle_image']): ?>
-          <img src="<?= BASE ?>/transport/<?= htmlspecialchars($v['vehicle_image']) ?>" class="v-img" alt="Vehicle">
+          <img src="<?= BASE ?>/transport/<?= htmlspecialchars($v['vehicle_image']) ?>" class="v-img" alt="Vehicle" loading="lazy">
         <?php else: ?>
-          <div class="v-img-placeholder">🚚</div>
+          <div class="v-img-placeholder"><i class="fas fa-truck" style="color:rgba(249,115,22,0.60);font-size:3rem;"></i></div>
         <?php endif; ?>
         <div class="v-body">
           <div class="v-rate">₹<?= htmlspecialchars($v['rate_per_km']) ?>/km</div>
@@ -163,7 +138,9 @@ include '../includes/navbar.php';
             <input type="hidden" name="distance_km" value="<?= $distance_km ?>">
             <input type="hidden" name="date" value="<?= htmlspecialchars($date) ?>">
             <input type="hidden" name="time" value="<?= htmlspecialchars($time) ?>">
-            <button type="submit" class="book-btn">Book This Vehicle</button>
+            <button type="submit" class="book-btn">
+              <i class="fas fa-check-circle"></i> Book This Vehicle
+            </button>
           </form>
         </div>
       </div>
@@ -172,29 +149,43 @@ include '../includes/navbar.php';
   <?php endif; ?>
 </div>
 
-<div id="toast"></div>
 <?php include '../includes/footer.php'; ?>
+<script src="<?= BASE ?>/assets/js/effects.js"></script>
 <script>
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'show ' + type;
-  setTimeout(() => t.className = '', 4000);
-}
 document.querySelectorAll('.booking-form').forEach(form => {
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = this.querySelector('.book-btn');
-    btn.disabled = true; btn.textContent = 'Booking...';
-    fetch('book_vehicle.php', {method:'POST', body: new FormData(this)})
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
+    fetch('book_vehicle.php', { method:'POST', body: new FormData(this) })
       .then(r => r.json())
       .then(d => {
         if (d.success) {
-          showToast('✅ ' + d.message + ' — Total: ₹' + d.total_cost, 'success');
-          setTimeout(() => window.location.href = d.redirect || '<?= BASE ?>/front/index.php?booking_success=true', 3000);
-        } else { showToast('❌ ' + d.message, 'error'); btn.disabled=false; btn.textContent='Book This Vehicle'; }
+          if (window.showToast) showToast('✅ ' + d.message + ' — Total: ₹' + d.total_cost, 'success', 5000);
+          btn.innerHTML = '<i class="fas fa-check"></i> Booked!';
+          btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+          setTimeout(() => window.location.href = d.redirect || '<?= BASE ?>/front/dashboard_customer.php', 2500);
+        } else {
+          if (window.showToast) showToast('❌ ' + d.message, 'error');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-check-circle"></i> Book This Vehicle';
+        }
       })
-      .catch(() => { showToast('❌ Something went wrong. Try again.', 'error'); btn.disabled=false; btn.textContent='Book This Vehicle'; });
+      .catch(() => {
+        if (window.showToast) showToast('❌ Something went wrong. Try again.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Book This Vehicle';
+      });
   });
 });
+
+function sortVehicles(by) {
+  const grid = document.getElementById('vehiclesGrid');
+  const cards = [...grid.querySelectorAll('.v-card')];
+  cards.sort((a, b) => parseFloat(a.dataset[by]) - parseFloat(b.dataset[by]));
+  cards.forEach(c => grid.appendChild(c));
+}
 </script>
-</body></html>
+</body>
+</html>
