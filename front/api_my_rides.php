@@ -1,12 +1,10 @@
 <?php
 session_start();
-require_once dirname(__DIR__).'/config.php';
+require_once dirname(__DIR__).'/includes/db.php';
 header('Content-Type: application/json');
 if (!isset($_SESSION['loggedin'])) { echo json_encode(['error'=>'unauthorized']); exit; }
 
-$conn = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME,(int)DB_PORT);
-if ($conn->connect_error) { echo json_encode(['error'=>'db']); exit; }
-$conn->set_charset('utf8mb4');
+$conn = db();
 
 $username = $_SESSION['username'];
 

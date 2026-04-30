@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once dirname(__DIR__).'/config.php';
+require_once dirname(__DIR__).'/includes/db.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedin']))         { echo json_encode(['success'=>false,'msg'=>'Unauthorized']); exit; }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { echo json_encode(['success'=>false,'msg'=>'Invalid method']); exit; }
 
-$conn     = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME,(int)DB_PORT);
+$conn     = db();
 $id       = intval($_POST['id'] ?? 0);
 $username = $_SESSION['username'];
 

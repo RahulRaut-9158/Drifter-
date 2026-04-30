@@ -1,7 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['loggedin'])) { header('Location: /Drifter/front/login.php?redirect=/Drifter/courier/courier.php'); exit; }
-require_once 'db_connect.php';
+require_once dirname(__DIR__).'/includes/db.php';
+if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/login.php?redirect='.urlencode(BASE.'/courier/courier.php')); exit; }
+$pdo = courierPDO();
 
 $sender_name     = trim($_POST['sender_name'] ?? '');
 $sender_phone    = trim($_POST['sender_phone'] ?? '');

@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once 'db_connect.php';
+require_once dirname(__DIR__).'/includes/db.php';
+$pdo = courierPDO();
 
 $pickup = isset($_GET['pickup']) ? trim($_GET['pickup']) : '';
 $city   = explode(',', $pickup)[0];
@@ -33,7 +34,7 @@ include '../includes/navbar.php';
 }
 .page-hero::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(45,98,53,0.93) 0%,rgba(168,223,142,0.40) 100%);
+  background:linear-gradient(135deg,rgba(42,37,32,0.92) 0%,rgba(188,159,139,0.38) 100%);
 }
 .page-hero h1{font-size:1.8rem;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
 .page-hero p{color:rgba(255,255,255,0.80);position:relative;z-index:1;}
@@ -45,7 +46,7 @@ include '../includes/navbar.php';
 .p-card{background:white;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:var(--trans);}
 .p-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
 .p-logo{width:100%;height:160px;object-fit:cover;background:#f1f5f9;}
-.p-logo-ph{width:100%;height:160px;background:linear-gradient(135deg,#F0FFDF,#A8DF8E);display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.p-logo-ph{width:100%;height:160px;background:linear-gradient(135deg,var(--linen,#E7E8D8),var(--mint,#CADABF));display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
 .p-body{padding:20px;}
 .p-name{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
 .p-rating{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
@@ -53,19 +54,19 @@ include '../includes/navbar.php';
 .p-rating span{font-size:0.82rem;color:var(--muted);}
 .p-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;}
 .p-services{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.svc-tag{padding:3px 10px;background:#F0FFDF;color:#2d6235;border-radius:50px;font-size:0.75rem;font-weight:600;}
+.svc-tag{padding:3px 10px;background:rgba(202,218,191,0.25);color:#3a6b3c;border-radius:50px;font-size:0.75rem;font-weight:600;}
 .p-pricing{background:#f0f9ff;border-radius:8px;padding:10px 14px;margin-bottom:16px;}
 .p-pricing-row{display:flex;justify-content:space-between;font-size:0.82rem;padding:3px 0;}
 .p-pricing-row span{color:var(--muted);}
 .p-pricing-row strong{color:var(--text);}
 .p-locations{font-size:0.8rem;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
-.contact-btn{width:100%;padding:11px;background:linear-gradient(135deg,#3a7d44,#2d6235);color:white;border:none;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
-.contact-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(58,125,68,0.38);}
+.contact-btn{width:100%;padding:11px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border:none;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(188,159,139,0.40);}
 .no-results{text-align:center;padding:80px 24px;background:white;border-radius:16px;box-shadow:var(--shadow);}
 .no-results .icon{font-size:4rem;margin-bottom:16px;}
 .no-results h3{font-size:1.4rem;font-weight:700;margin-bottom:8px;}
 .no-results p{color:var(--muted);margin-bottom:24px;}
-.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#3a7d44;color:white;border-radius:10px;text-decoration:none;font-weight:600;}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border-radius:10px;text-decoration:none;font-weight:600;}
 </style>
 </head>
 <body>
@@ -95,7 +96,7 @@ include '../includes/navbar.php';
       ?>
       <div class="p-card">
         <?php if ($c['logo_path']): ?>
-          <img src="/Drifter/courier/<?= htmlspecialchars($c['logo_path']) ?>" class="p-logo" alt="Logo">
+          <img src="<?= BASE ?>/courier/<?= htmlspecialchars($c['logo_path']) ?>" class="p-logo" alt="Logo">
         <?php else: ?>
           <div class="p-logo-ph">📦</div>
         <?php endif; ?>

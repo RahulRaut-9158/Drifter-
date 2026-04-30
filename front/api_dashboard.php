@@ -1,10 +1,10 @@
 <?php
 session_start();
+require_once dirname(__DIR__).'/includes/db.php';
 header('Content-Type: application/json');
 if (!isset($_SESSION['loggedin'])) { echo json_encode(['error'=>'unauthorized']); exit; }
 
-$conn = new mysqli("localhost","root","","db");
-if ($conn->connect_error) { echo json_encode(['error'=>'db']); exit; }
+$conn = db();
 
 $username = $_SESSION['username'];
 $category = in_array($_GET['category']??'',['transport','travel']) ? $_GET['category'] : 'transport';

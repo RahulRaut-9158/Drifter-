@@ -22,7 +22,7 @@ include '../includes/navbar.php';
 .section{padding:72px 24px;}
 .section-inner{max-width:1200px;margin:0 auto;}
 .section-head{text-align:center;margin-bottom:52px;}
-.tag{display:inline-block;background:rgba(255,107,0,0.10);color:#FF6B00;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:12px;border:1px solid rgba(255,107,0,0.20);}
+.tag{display:inline-block;background:rgba(188,159,139,0.12);color:#a08070;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:12px;border:1px solid rgba(188,159,139,0.22);}
 .section-head h2{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:800;color:#212529;margin-bottom:10px;}
 .section-head p{color:#6c757d;max-width:500px;margin:0 auto;font-size:0.95rem;}
 
@@ -34,11 +34,11 @@ include '../includes/navbar.php';
 .contact-info h3{font-size:1.1rem;font-weight:700;margin-bottom:24px;color:#212529;padding-bottom:14px;border-bottom:2px solid #F8F9FA;}
 .info-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;padding:10px;border-radius:9px;transition:background 0.2s;}
 .info-item:hover{background:#F8F9FA;}
-.info-icon{width:44px;height:44px;background:linear-gradient(135deg,#FF6B00,#FFC107);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;}
-.info-item:hover .info-icon{transform:scale(1.10) rotate(-5deg);box-shadow:0 4px 14px rgba(255,107,0,0.35);}
+.info-icon{width:44px;height:44px;background:linear-gradient(135deg,#BC9F8B,#a08070);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;}
+.info-item:hover .info-icon{transform:scale(1.10) rotate(-5deg);box-shadow:0 4px 14px rgba(188,159,139,0.35);}
 .info-content h4{font-size:0.86rem;font-weight:700;color:#212529;margin-bottom:3px;}
 .info-content p,.info-content a{color:#6c757d;font-size:0.84rem;text-decoration:none;display:block;line-height:1.6;}
-.info-content a:hover{color:#FF6B00;}
+.info-content a:hover{color:#BC9F8B;}
 .quick-links{margin-top:20px;padding-top:20px;border-top:1px solid #e9ecef;}
 .quick-links h4{font-size:0.82rem;font-weight:700;color:#212529;margin-bottom:10px;}
 .quick-links a{display:flex;align-items:center;gap:8px;color:#6c757d;font-size:0.83rem;text-decoration:none;padding:7px 8px;border-radius:7px;transition:color 0.2s,background 0.2s,padding-left 0.2s;}
@@ -51,12 +51,12 @@ include '../includes/navbar.php';
 .form-group{margin-bottom:16px;}
 .form-group label{display:block;font-size:0.78rem;font-weight:600;color:#495057;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;}
 .form-control{width:100%;padding:11px 14px;border:1.5px solid #e9ecef;border-radius:9px;font-size:0.92rem;font-family:inherit;transition:border-color 0.2s,box-shadow 0.2s;outline:none;background:#F8F9FA;color:#212529;}
-.form-control:focus{border-color:#FF6B00;background:white;box-shadow:0 0 0 3px rgba(255,107,0,0.12);}
+.form-control:focus{border-color:#BC9F8B;background:white;box-shadow:0 0 0 3px rgba(188,159,139,0.14);}
 .form-control::placeholder{color:#ADB5BD;}
 textarea.form-control{min-height:120px;resize:vertical;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.btn-submit{width:100%;padding:13px;background:linear-gradient(135deg,#FF6B00,#e05e00);color:white;border:none;border-radius:9px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:transform 0.2s,box-shadow 0.2s,filter 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 12px rgba(255,107,0,0.30);}
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(255,107,0,0.40);filter:brightness(1.06);}
+.btn-submit{width:100%;padding:13px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border:none;border-radius:9px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:transform 0.2s,box-shadow 0.2s,filter 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 12px rgba(188,159,139,0.30);}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(188,159,139,0.45);filter:brightness(1.06);}
 .btn-submit:disabled{opacity:0.65;cursor:not-allowed;transform:none;}
 
 /* ── ALERTS ── */
@@ -100,7 +100,7 @@ textarea.form-control{min-height:120px;resize:vertical;}
         </div>
         <div class="info-item">
           <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
-          <div class="info-content"><h4>Phone</h4><a href="tel:+919529212771">+91 9529212771</a></div>
+          <div class="info-content"><h4>Phone</h4><a href="tel:+919529212771">+91 87883940**</a></div>
         </div>
         <div class="info-item">
           <div class="info-icon"><i class="fas fa-envelope"></i></div>
@@ -112,10 +112,10 @@ textarea.form-control{min-height:120px;resize:vertical;}
         </div>
         <div class="quick-links">
           <h4>Quick Links</h4>
-          <a href="/Drifter/transport/booking_step1.php"><i class="fas fa-truck-moving"></i> Book Transport</a>
-          <a href="/Drifter/travel/booking_step1.php"><i class="fas fa-bus"></i> Book Travel</a>
-          <a href="/Drifter/courier/courier.php"><i class="fas fa-box"></i> Send Courier</a>
-          <a href="/Drifter/move/movers.php"><i class="fas fa-people-carry"></i> Packers & Movers</a>
+          <a href="<?= BASE ?>/transport/booking_step1.php"><i class="fas fa-truck-moving"></i> Book Transport</a>
+          <a href="<?= BASE ?>/travel/booking_step1.php"><i class="fas fa-bus"></i> Book Travel</a>
+          <a href="<?= BASE ?>/courier/courier.php"><i class="fas fa-box"></i> Send Courier</a>
+          <a href="<?= BASE ?>/move/movers.php"><i class="fas fa-people-carry"></i> Packers & Movers</a>
         </div>
       </div>
 
@@ -181,7 +181,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-  fetch('/Drifter/front/api_contact.php', {
+  fetch('<?= BASE ?>/front/api_contact.php', {
     method: 'POST',
     body: new URLSearchParams(new FormData(this))
   })

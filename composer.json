@@ -1,8 +1,0 @@
-{
-    "name": "drifter/transport-platform",
-    "description": "Drifter Transport Services Platform",
-    "type": "project",
-    "require": {
-        "php": ">=8.0"
-    }
-}

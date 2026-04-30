@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['loggedin'])) { header("Location: /Drifter/front/login.php?redirect=/Drifter/courier/courier.php"); exit; }
+if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/login.php?redirect='.urlencode(BASE.'/courier/courier.php')); exit; }
 $navActive = '';
 include '../includes/navbar.php';
 ?>
@@ -21,7 +21,7 @@ include '../includes/navbar.php';
 }
 .page-hero::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(45,98,53,0.92) 0%,rgba(168,223,142,0.40) 100%);
+  background:linear-gradient(135deg,rgba(42,37,32,0.92) 0%,rgba(188,159,139,0.38) 100%);
 }
 .page-hero h1{font-size:2.2rem;font-weight:800;margin-bottom:8px;position:relative;z-index:1;}
 .page-hero p{color:rgba(255,255,255,0.75);font-size:0.95rem;position:relative;z-index:1;}
@@ -35,10 +35,10 @@ include '../includes/navbar.php';
 .form-group.full{grid-column:span 2;}
 .form-group label{font-size:0.82rem;font-weight:600;color:#475569;}
 .form-group input,.form-group textarea{padding:12px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.95rem;transition:all 0.25s;outline:none;font-family:inherit;background:#fafafa;}
-.form-group input:focus,.form-group textarea:focus{border-color:#3a7d44;background:white;box-shadow:0 0 0 3px rgba(168,223,142,0.22);}
+.form-group input:focus,.form-group textarea:focus{border-color:#BC9F8B;background:white;box-shadow:0 0 0 3px rgba(188,159,139,0.18);}
 .form-group textarea{min-height:100px;resize:vertical;}
-.submit-btn{width:100%;padding:15px;margin-top:24px;background:linear-gradient(135deg,#3a7d44,#2d6235);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
-.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,125,68,0.38);}
+.submit-btn{width:100%;padding:15px;margin-top:24px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(188,159,139,0.40);}
 .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 @media(max-width:600px){.form-grid{grid-template-columns:1fr;}.form-group.full{grid-column:span 1;}}
 </style>

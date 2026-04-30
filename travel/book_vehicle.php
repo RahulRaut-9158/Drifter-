@@ -3,9 +3,8 @@ session_start();
 header('Content-Type: application/json');
 if (!isset($_SESSION['loggedin'])) { echo json_encode(['success'=>false,'message'=>'Please login first.']); exit; }
 
-$conn = new mysqli('localhost','root','','db');
-if ($conn->connect_error) { echo json_encode(['success'=>false,'message'=>'Database error.']); exit; }
-$conn->set_charset('utf8mb4');
+require_once dirname(__DIR__) . '/includes/db.php';
+$conn = db();
 
 $vehicle_id  = intval($_POST['vehicle_id'] ?? 0);
 $user_name   = trim($_POST['user_name'] ?? '');
@@ -50,7 +49,7 @@ $stmt = $conn->prepare("INSERT INTO booking (vehicle_id,user_name,user_mobile,pi
 $stmt->bind_param('isssssdss', $vehicle_id, $user_name, $user_mobile, $pickup, $drop, $distance, $total_cost, $date, $time);
 
 if ($stmt->execute()) {
-    echo json_encode(['success'=>true,'message'=>'Booking placed successfully!','total_cost'=>number_format($total_cost,2),'booking_id'=>$conn->insert_id]);
+    echo json_encode(['success'=>true,'message'=>'Booking placed successfully!','total_cost'=>number_format($total_cost,2),'booking_id'=>$conn->insert_id,'redirect'=>BASE.'/front/index.php?booking_success=true']);
 } else {
     echo json_encode(['success'=>false,'message'=>'Booking failed. Please try again.']);
 }

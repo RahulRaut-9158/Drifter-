@@ -1,25 +1,26 @@
 <?php
-// Require login — redirect if not logged in
-// Usage: require_once ROOT.'/includes/auth.php'; requireLogin();
-if (!defined('ROOT')) define('ROOT', dirname(__DIR__));
+if (session_status() === PHP_SESSION_NONE) session_start();
+require_once __DIR__ . '/../config.php';
 
-function requireLogin($redirect = null) {
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-        $back = $redirect ?? $_SERVER['REQUEST_URI'];
-        header('Location: ' . ROOT_URL . '/front/login.php?redirect=' . urlencode($back));
+function requireLogin() {
+    if (empty($_SESSION['loggedin'])) {
+        header('Location: ' . BASE . '/login.php?redirect=' . urlencode($_SERVER['REQUEST_URI'] ?? ''));
         exit;
     }
 }
 
-// Root URL helper — works on localhost/Drifter
-if (!defined('ROOT_URL')) {
-    $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host  = $_SERVER['HTTP_HOST'];
-    // detect base path (e.g. /Drifter)
-    $script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
-    $parts  = explode('/', trim($script, '/'));
-    $base   = '/' . $parts[0]; // e.g. /Drifter
-    define('ROOT_URL', $proto . '://' . $host . $base);
+function requireRole($role) {
+    requireLogin();
+    if (($_SESSION['role'] ?? '') !== $role) {
+        header('Location: ' . BASE . '/index.php');
+        exit;
+    }
+}
+
+function requireAdmin() {
+    if (empty($_SESSION['loggedin']) || ($_SESSION['role'] ?? '') !== 'admin') {
+        header('Location: ' . BASE . '/login.php');
+        exit;
+    }
 }
 ?>

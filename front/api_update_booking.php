@@ -1,12 +1,13 @@
 <?php
 session_start();
+require_once dirname(__DIR__).'/includes/db.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedin']))         { echo json_encode(['success'=>false,'msg'=>'Unauthorized']); exit; }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { echo json_encode(['success'=>false,'msg'=>'Invalid method']); exit; }
 if (($_SESSION['role'] ?? '') !== 'owner') { echo json_encode(['success'=>false,'msg'=>'Not an owner account']); exit; }
 
-$conn     = new mysqli("localhost","root","","db");
+$conn     = db();
 $bid      = intval($_POST['booking_id'] ?? 0);
 $action   = trim($_POST['action'] ?? '');
 $username = $_SESSION['username'];

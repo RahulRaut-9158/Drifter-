@@ -1,7 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['loggedin'])) { header('Location: /Drifter/front/login.php'); exit; }
-require_once 'db_connect.php';
+if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/login.php'); exit; }
+require_once dirname(__DIR__).'/includes/db.php';
+$pdo = courierPDO();
 
 $name      = trim($_POST['company_name'] ?? '');
 $desc      = trim($_POST['company_description'] ?? '');

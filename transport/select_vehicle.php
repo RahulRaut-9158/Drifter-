@@ -1,9 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['loggedin'])) { header("Location: /Drifter/front/login.php"); exit; }
+require_once '../includes/db.php';
+if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/login.php'); exit; }
 
-$conn = new mysqli("localhost","root","","db");
-if ($conn->connect_error) die("DB Error: ".$conn->connect_error);
+$conn = db();
 
 $user_name       = trim($_POST['user_name'] ?? '');
 $user_mobile     = trim($_POST['user_mobile'] ?? '');
@@ -53,10 +53,10 @@ include '../includes/navbar.php';
 .step-item{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;padding:0 28px;}
 .step-item:not(:last-child)::after{content:'';position:absolute;right:-1px;top:18px;width:56px;height:2px;background:#e2e8f0;}
 .step-circle{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;background:#e2e8f0;color:#94a3b8;}
-.step-item.active .step-circle{background:#3a7d44;color:white;box-shadow:0 4px 12px rgba(58,125,68,0.45);}
-.step-item.done .step-circle{background:#A8DF8E;color:#1e3a22;}
+.step-item.active .step-circle{background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;box-shadow:0 4px 12px rgba(188,159,139,0.45);}
+.step-item.done .step-circle{background:#B5CFB7;color:#2a2520;}
 .step-label{font-size:0.72rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;}
-.step-item.active .step-label{color:#3a7d44;}
+.step-item.active .step-label{color:#a08070;}
 
 .vehicles-section{max-width:1280px;margin:0 auto;padding:40px 24px 80px;}
 .vehicles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
@@ -74,29 +74,29 @@ include '../includes/navbar.php';
   background:rgba(15,10,40,0.45);
 }
 .v-body{padding:20px;}
-.v-rate{display:inline-block;background:linear-gradient(135deg,#3a7d44,#2d6235);color:white;padding:4px 12px;border-radius:50px;font-size:0.8rem;font-weight:700;margin-bottom:12px;}
+.v-rate{display:inline-block;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;padding:4px 12px;border-radius:50px;font-size:0.8rem;font-weight:700;margin-bottom:12px;}
 .v-name{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:8px;}
 .v-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
 .v-meta-item{font-size:0.8rem;color:var(--muted);}
 .v-meta-item strong{display:block;color:var(--text);font-size:0.88rem;}
-.v-total{background:#F0FFDF;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;border:1px solid #A8DF8E;}
-.v-total span{font-size:0.82rem;color:#2d6235;font-weight:500;}
-.v-total strong{font-size:1.1rem;color:#2d6235;font-weight:800;}
-.book-btn{width:100%;padding:12px;background:linear-gradient(135deg,#3a7d44,#2d6235);color:white;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
-.book-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(58,125,68,0.40);}
+.v-total{background:rgba(202,218,191,0.20);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(181,207,183,0.45);}
+.v-total span{font-size:0.82rem;color:#3a6b3c;font-weight:500;}
+.v-total strong{font-size:1.1rem;color:#3a6b3c;font-weight:800;}
+.book-btn{width:100%;padding:12px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
+.book-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(188,159,139,0.45);}
 .book-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 
 .no-vehicles{text-align:center;padding:80px 24px;background:white;border-radius:16px;box-shadow:var(--shadow);}
 .no-vehicles .icon{font-size:4rem;margin-bottom:16px;}
 .no-vehicles h3{font-size:1.4rem;font-weight:700;margin-bottom:8px;}
 .no-vehicles p{color:var(--muted);margin-bottom:24px;}
-.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#3a7d44;color:white;border-radius:10px;text-decoration:none;font-weight:600;transition:var(--trans);}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border-radius:10px;text-decoration:none;font-weight:600;transition:var(--trans);}
 .back-btn:hover{transform:translateY(-2px);}
 
 /* toast */
 #toast{position:fixed;top:80px;right:24px;z-index:99999;padding:14px 22px;border-radius:10px;font-weight:600;font-size:0.9rem;box-shadow:0 8px 24px rgba(0,0,0,0.2);transform:translateX(120%);transition:transform 0.4s ease;max-width:320px;}
 #toast.show{transform:translateX(0);}
-#toast.success{background:#3a7d44;color:white;}
+#toast.success{background:#B5CFB7;color:#1a3a1c;}
 #toast.error{background:#FFAAB8;color:#5a1a2a;}
 </style>
 </head>
@@ -138,7 +138,7 @@ include '../includes/navbar.php';
       ?>
       <div class="v-card">
         <?php if ($v['vehicle_image']): ?>
-          <img src="/Drifter/transport/<?= htmlspecialchars($v['vehicle_image']) ?>" class="v-img" alt="Vehicle">
+          <img src="<?= BASE ?>/transport/<?= htmlspecialchars($v['vehicle_image']) ?>" class="v-img" alt="Vehicle">
         <?php else: ?>
           <div class="v-img-placeholder">🚚</div>
         <?php endif; ?>
@@ -190,7 +190,7 @@ document.querySelectorAll('.booking-form').forEach(form => {
       .then(d => {
         if (d.success) {
           showToast('✅ ' + d.message + ' — Total: ₹' + d.total_cost, 'success');
-          setTimeout(() => window.location.href = '/Drifter/front/index.php?booking_success=true', 3000);
+          setTimeout(() => window.location.href = d.redirect || '<?= BASE ?>/front/index.php?booking_success=true', 3000);
         } else { showToast('❌ ' + d.message, 'error'); btn.disabled=false; btn.textContent='Book This Vehicle'; }
       })
       .catch(() => { showToast('❌ Something went wrong. Try again.', 'error'); btn.disabled=false; btn.textContent='Book This Vehicle'; });

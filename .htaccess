@@ -1,12 +1,14 @@
+DirectoryIndex index.php
 Options -Indexes
-RewriteEngine On
 
-# Redirect root to front/index.php
-RewriteRule ^$ front/index.php [L,R=302]
+# Block direct access to sensitive files
+<FilesMatch "(db_setup.*\.sql|gen_hash\.php|seed_admin\.php|\.gitignore|README\.md|CLEANUP_GUIDE\.md|INFINITYFREE_UPLOAD_GUIDE\.md)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
 
-# Allow direct access to existing files and directories
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Remove /Drifter prefix if accessed with it (local compat)
-RewriteRule ^Drifter/(.*)$ /$1 [L,R=301]
+# Block access to .git directory
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.git - [F,L]
+</IfModule>

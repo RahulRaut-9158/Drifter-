@@ -1,7 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['loggedin'])) { header('Location: /Drifter/front/login.php'); exit; }
-require_once 'db_connect.php';
+if (!isset($_SESSION['loggedin'])) { header('Location: '.BASE.'/front/login.php'); exit; }
+require_once dirname(__DIR__).'/includes/db.php';
+$pdo = courierPDO();
 $navActive = '';
 include '../includes/navbar.php';
 
@@ -32,19 +33,19 @@ $pendingCount = $reqStmt->fetchColumn();
 }
 .page-hero::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(45,98,53,0.93) 0%,rgba(168,223,142,0.40) 100%);
+  background:linear-gradient(135deg,rgba(42,37,32,0.92) 0%,rgba(188,159,139,0.38) 100%);
 }
 .page-hero h1{font-size:1.8rem;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
 .page-hero p{color:rgba(255,255,255,0.75);position:relative;z-index:1;}
 .wrap{max-width:1280px;margin:0 auto;padding:40px 24px 80px;}
 .dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px;}
 .dash-header h2{font-size:1.3rem;font-weight:700;}
-.add-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:linear-gradient(135deg,#3a7d44,#2d6235);color:white;border-radius:10px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:var(--trans);}
-.add-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(58,125,68,0.38);}
+.add-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border-radius:10px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:var(--trans);}
+.add-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(188,159,139,0.40);}
 .companies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:24px;}
 .c-card{background:white;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
 .c-logo{width:100%;height:160px;object-fit:cover;}
-.c-logo-ph{width:100%;height:160px;background:linear-gradient(135deg,#F0FFDF,#A8DF8E);display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.c-logo-ph{width:100%;height:160px;background:linear-gradient(135deg,var(--linen,#E7E8D8),var(--mint,#CADABF));display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
 .c-body{padding:20px;}
 .c-name{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
 .c-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
@@ -52,7 +53,7 @@ $pendingCount = $reqStmt->fetchColumn();
 .c-meta-item i{color:#3a7d44;width:14px;}
 .c-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;}
 .loc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.loc-tag{padding:3px 10px;background:#F0FFDF;color:#2d6235;border-radius:50px;font-size:0.75rem;font-weight:600;}
+.loc-tag{padding:3px 10px;background:rgba(202,218,191,0.25);color:#3a6b3c;border-radius:50px;font-size:0.75rem;font-weight:600;}
 .svc-section{border-top:1px solid #f1f5f9;padding-top:14px;margin-top:14px;}
 .svc-title{font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:10px;}
 .svc-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f8fafc;font-size:0.82rem;}
@@ -63,10 +64,10 @@ $pendingCount = $reqStmt->fetchColumn();
 .req-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;padding:8px 0;border-bottom:1px solid #f8fafc;font-size:0.8rem;align-items:center;}
 .req-row:last-child{border-bottom:none;}
 .status-pill{padding:3px 10px;border-radius:50px;font-size:0.72rem;font-weight:700;}
-.status-pill.pending{background:#fef3c7;color:#92400e;}
-.status-pill.assigned{background:#F0FFDF;color:#2d6235;}
-.status-pill.delivered{background:#A8DF8E;color:#1e3a22;}
-.status-pill.cancelled{background:#FFD8DF;color:#7a1a2a;}
+.status-pill.pending{background:rgba(188,159,139,0.18);color:#7a5a40;}
+.status-pill.assigned{background:rgba(202,218,191,0.30);color:#3a6b3c;}
+.status-pill.delivered{background:rgba(181,207,183,0.40);color:#1e3a22;}
+.status-pill.cancelled{background:rgba(231,232,216,0.80);color:#7a7060;}
 .empty-state{text-align:center;padding:80px 24px;background:white;border-radius:16px;box-shadow:var(--shadow);}
 .empty-state .icon{font-size:4rem;margin-bottom:16px;}
 .empty-state h3{font-size:1.4rem;font-weight:700;margin-bottom:8px;}
@@ -109,7 +110,7 @@ $pendingCount = $reqStmt->fetchColumn();
       ?>
       <div class="c-card">
         <?php if ($c['logo_path']): ?>
-          <img src="/Drifter/courier/<?= htmlspecialchars($c['logo_path']) ?>" class="c-logo" alt="Logo">
+          <img src="<?= BASE ?>/courier/<?= htmlspecialchars($c['logo_path']) ?>" class="c-logo" alt="Logo">
         <?php else: ?>
           <div class="c-logo-ph">📦</div>
         <?php endif; ?>

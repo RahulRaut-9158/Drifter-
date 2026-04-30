@@ -22,7 +22,7 @@ include '../includes/navbar.php';
 .section{padding:72px 24px;}
 .section-inner{max-width:1200px;margin:0 auto;}
 .section-head{text-align:center;margin-bottom:52px;}
-.tag{display:inline-block;background:rgba(255,107,0,0.10);color:#FF6B00;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:12px;border:1px solid rgba(255,107,0,0.20);}
+.tag{display:inline-block;background:rgba(188,159,139,0.12);color:#a08070;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:12px;border:1px solid rgba(188,159,139,0.22);}
 .section-head h2{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:800;color:#212529;margin-bottom:10px;}
 .section-head p{color:#6c757d;max-width:500px;margin:0 auto;font-size:0.95rem;}
 
@@ -37,8 +37,8 @@ include '../includes/navbar.php';
 .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
 .feature-card{background:white;border-radius:12px;padding:26px;box-shadow:0 2px 12px rgba(33,37,41,0.08);display:flex;gap:16px;align-items:flex-start;border:1px solid #e9ecef;border-left:3px solid transparent;transition:transform 0.22s,box-shadow 0.22s,border-left-color 0.22s;}
 .feature-card:hover{transform:translateY(-5px);box-shadow:0 12px 36px rgba(33,37,41,0.12);border-left-color:#FF6B00;}
-.feat-icon{width:46px;height:46px;border-radius:11px;flex-shrink:0;background:linear-gradient(135deg,#FF6B00,#FFC107);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;}
-.feature-card:hover .feat-icon{transform:scale(1.14) rotate(-6deg);box-shadow:0 4px 14px rgba(255,107,0,0.40);}
+.feat-icon{width:46px;height:46px;border-radius:11px;flex-shrink:0;background:linear-gradient(135deg,#BC9F8B,#a08070);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;}
+.feature-card:hover .feat-icon{transform:scale(1.14) rotate(-6deg);box-shadow:0 4px 14px rgba(188,159,139,0.40);}
 .feature-card h4{font-size:0.95rem;font-weight:700;margin-bottom:5px;color:#212529;transition:color 0.2s;}
 .feature-card:hover h4{color:#FF6B00;}
 .feature-card p{font-size:0.83rem;color:#6c757d;line-height:1.6;}
@@ -50,7 +50,7 @@ include '../includes/navbar.php';
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;max-width:860px;margin:36px auto 0;}
 .stat-box{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:12px;padding:26px;transition:background 0.22s,transform 0.22s;}
 .stat-box:hover{background:rgba(255,107,0,0.12);transform:translateY(-5px);}
-.stat-num{font-size:2.6rem;font-weight:800;color:#FF6B00;}
+.stat-num{font-size:2.6rem;font-weight:800;color:#BC9F8B;}
 .stat-label{color:rgba(255,255,255,0.65);margin-top:5px;font-size:0.88rem;}
 
 /* ── SERVICES ── */
@@ -61,7 +61,7 @@ include '../includes/navbar.php';
 .service-card:hover .si{transform:scale(1.18) rotate(-5deg);}
 .service-card h3{font-size:1.05rem;font-weight:700;color:#212529;margin-bottom:7px;}
 .service-card p{color:#6c757d;font-size:0.84rem;margin-bottom:14px;line-height:1.6;}
-.service-card a{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--card-color,#FF6B00);color:white;border-radius:7px;text-decoration:none;font-size:0.82rem;font-weight:600;transition:filter 0.2s,transform 0.2s;}
+.service-card a{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--card-color,#BC9F8B);color:white;border-radius:7px;text-decoration:none;font-size:0.82rem;font-weight:600;transition:filter 0.2s,transform 0.2s;}
 .service-card a:hover{filter:brightness(1.10);transform:translateY(-2px);}
 
 @media(max-width:768px){.about-grid{grid-template-columns:1fr;gap:28px;}}
@@ -137,22 +137,22 @@ include '../includes/navbar.php';
       <div class="service-card" style="--card-color:#FF6B00;">
         <div class="si">🚚</div><h3>Transport</h3>
         <p>Reliable goods transportation for all cargo sizes with verified drivers.</p>
-        <a href="<?= isset($_SESSION['loggedin']) ? '/Drifter/transport/booking_step1.php' : '/Drifter/front/login.php?redirect=/Drifter/transport/booking_step1.php' ?>">Book Now <i class="fas fa-arrow-right"></i></a>
+        <a href="<?= isset($_SESSION['loggedin']) ? BASE.'/transport/booking_step1.php' : BASE.'/front/login.php?redirect='.urlencode(BASE.'/transport/booking_step1.php') ?>">Book Now <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="service-card" style="--card-color:#FFC107;">
         <div class="si">🚌</div><h3>Travel</h3>
         <p>Comfortable travel vehicles for daily commutes and long-distance trips.</p>
-        <a href="<?= isset($_SESSION['loggedin']) ? '/Drifter/travel/booking_step1.php' : '/Drifter/front/login.php?redirect=/Drifter/travel/booking_step1.php' ?>">Book Now <i class="fas fa-arrow-right"></i></a>
+        <a href="<?= isset($_SESSION['loggedin']) ? BASE.'/travel/booking_step1.php' : BASE.'/front/login.php?redirect='.urlencode(BASE.'/travel/booking_step1.php') ?>">Book Now <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="service-card" style="--card-color:#ADB5BD;">
         <div class="si">📦</div><h3>Courier</h3>
         <p>Fast and secure package delivery with same-day and scheduled options.</p>
-        <a href="<?= isset($_SESSION['loggedin']) ? '/Drifter/courier/courier.php' : '/Drifter/front/login.php?redirect=/Drifter/courier/courier.php' ?>">Send Now <i class="fas fa-arrow-right"></i></a>
+        <a href="<?= isset($_SESSION['loggedin']) ? BASE.'/courier/courier.php' : BASE.'/front/login.php?redirect='.urlencode(BASE.'/courier/courier.php') ?>">Send Now <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="service-card" style="--card-color:#e05e00;">
         <div class="si">🏠</div><h3>Packers & Movers</h3>
         <p>Professional home and office relocation with full packing service.</p>
-        <a href="<?= isset($_SESSION['loggedin']) ? '/Drifter/move/movers.php' : '/Drifter/front/login.php?redirect=/Drifter/move/movers.php' ?>">Get Quote <i class="fas fa-arrow-right"></i></a>
+        <a href="<?= isset($_SESSION['loggedin']) ? BASE.'/move/movers.php' : BASE.'/front/login.php?redirect='.urlencode(BASE.'/move/movers.php') ?>">Get Quote <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
   </div>

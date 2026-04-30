@@ -1,6 +1,10 @@
 <?php
 session_start();
-require_once 'db_connect.php';
+require_once dirname(__DIR__) . '/includes/db.php';
+$pdo = moversPDO();
+
+$tCompanies = SINGLE_DB ? 'movers_companies' : 'companies';
+$tServices  = SINGLE_DB ? 'movers_services'  : 'services';
 
 $current  = isset($_GET['current']) ? trim($_GET['current']) : '';
 $new      = isset($_GET['new'])     ? trim($_GET['new'])     : '';
@@ -12,7 +16,7 @@ $propLabels = ['1bhk'=>'1 BHK','2bhk'=>'2 BHK','3bhk'=>'3 BHK','villa'=>'Villa',
 $workLabels = ['packing'=>'Packing Only','moving'=>'Moving Only','packing_moving'=>'Packing + Moving','full_service'=>'Full Service','vehicle'=>'Vehicle Transport','international'=>'International'];
 
 try {
-    $stmt = $pdo->prepare("SELECT DISTINCT c.* FROM companies c JOIN services s ON c.id=s.company_id WHERE s.service_type=? AND s.property_type=? AND c.service_locations LIKE ? ORDER BY c.rating DESC");
+    $stmt = $pdo->prepare("SELECT DISTINCT c.* FROM $tCompanies c JOIN $tServices s ON c.id=s.company_id WHERE s.service_type=? AND s.property_type=? AND c.service_locations LIKE ? ORDER BY c.rating DESC");
     $stmt->execute([$workType, $propType, "%$city%"]);
     $companies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) { $companies = []; }
@@ -37,7 +41,7 @@ include '../includes/navbar.php';
 }
 .page-hero::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(45,98,53,0.93) 0%,rgba(168,223,142,0.40) 100%);
+  background:linear-gradient(135deg,rgba(42,37,32,0.92) 0%,rgba(188,159,139,0.38) 100%);
 }
 .page-hero h1{font-size:1.8rem;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
 .page-hero p{color:rgba(255,255,255,0.80);position:relative;z-index:1;}
@@ -51,7 +55,7 @@ include '../includes/navbar.php';
 .providers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;}
 .p-card{background:white;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:var(--trans);}
 .p-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
-.p-logo-ph{width:100%;height:160px;background:linear-gradient(135deg,#F0FFDF,#A8DF8E);display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.p-logo-ph{width:100%;height:160px;background:linear-gradient(135deg,var(--linen,#E7E8D8),var(--mint,#CADABF));display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
 .p-logo{width:100%;height:160px;object-fit:cover;}
 .p-body{padding:20px;}
 .p-name{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
@@ -59,19 +63,19 @@ include '../includes/navbar.php';
 .stars{color:#f59e0b;font-size:0.85rem;}
 .p-rating span{font-size:0.82rem;color:var(--muted);}
 .p-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;}
-.p-price{background:#F0FFDF;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid #A8DF8E;}
-.p-price span{font-size:0.82rem;color:#2d6235;}
-.p-price strong{font-size:1.05rem;color:#2d6235;font-weight:800;}
+.p-price{background:rgba(202,218,191,0.20);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(181,207,183,0.45);}
+.p-price span{font-size:0.82rem;color:#3a6b3c;}
+.p-price strong{font-size:1.05rem;color:#3a6b3c;font-weight:800;}
 .p-services{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.svc-tag{padding:3px 10px;background:#F0FFDF;color:#2d6235;border-radius:50px;font-size:0.75rem;font-weight:600;}
+.svc-tag{padding:3px 10px;background:rgba(202,218,191,0.25);color:#3a6b3c;border-radius:50px;font-size:0.75rem;font-weight:600;}
 .p-locations{font-size:0.8rem;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
-.contact-btn{width:100%;padding:11px;background:linear-gradient(135deg,#3a7d44,#2d6235);color:white;border:none;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
-.contact-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(58,125,68,0.38);}
+.contact-btn{width:100%;padding:11px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border:none;border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(188,159,139,0.40);}
 .no-results{text-align:center;padding:80px 24px;background:white;border-radius:16px;box-shadow:var(--shadow);}
 .no-results .icon{font-size:4rem;margin-bottom:16px;}
 .no-results h3{font-size:1.4rem;font-weight:700;margin-bottom:8px;}
 .no-results p{color:var(--muted);margin-bottom:24px;}
-.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#3a7d44;color:white;border-radius:10px;text-decoration:none;font-weight:600;}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#BC9F8B,#a08070);color:white;border-radius:10px;text-decoration:none;font-weight:600;}
 </style>
 </head>
 <body>
@@ -100,13 +104,13 @@ include '../includes/navbar.php';
     </div>
     <div class="providers-grid">
       <?php foreach ($companies as $c):
-        $priceStmt = $pdo->prepare("SELECT min_price,max_price FROM services WHERE company_id=? AND service_type=? AND property_type=?");
+        $priceStmt = $pdo->prepare("SELECT min_price,max_price FROM $tServices WHERE company_id=? AND service_type=? AND property_type=?");
         $priceStmt->execute([$c['id'],$workType,$propType]);
         $price = $priceStmt->fetch(PDO::FETCH_ASSOC);
       ?>
       <div class="p-card">
         <?php if ($c['logo_path']): ?>
-          <img src="/Drifter/move/<?= htmlspecialchars($c['logo_path']) ?>" class="p-logo" alt="Logo">
+          <img src="<?= BASE ?>/move/<?= htmlspecialchars($c['logo_path']) ?>" class="p-logo" alt="Logo">
         <?php else: ?>
           <div class="p-logo-ph">🚛</div>
         <?php endif; ?>
